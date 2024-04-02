@@ -1,16 +1,16 @@
-import Navbar from "./componentes/Navbar";
-import Noticia from "./componentes/Noticia";
+import Navbar from "@/components/common/Navbar";
+import ContentCard from "@/components/home/ContentCard";
+import contents from "@/data/content.json";
+
 export default function Home() {
   return (
-    <div > 
+    <div>
       <Navbar />
-      <div className="h-auto flex flex-wrap items-center justify-center text-center ">
-        <Noticia />
-        <Noticia />
-        <Noticia />
+      <div className="h-auto flex flex-wrap items-center justify-center text-center gap-6 my-6">
+        {contents.map((content) => (
+          <ContentCard value={content} />
+        ))}
       </div>
-      
     </div>
   );
 }
-//flex flex-wrap
