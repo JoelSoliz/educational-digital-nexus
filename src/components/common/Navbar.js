@@ -7,13 +7,13 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <img src="/logo.webp" alt="Logo" className="h-12 w-auto" />
+              <img src="/logo.webp" alt="Logo" className="h-8 lg:h-12 w-auto" />
             </div>
-            <div className="ml-8">
+            <div className="hidden sm:block sm:ml-8">
               <input
                 type="text"
                 placeholder="Buscar"
-                className="px-4 py-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#66b72e] w-96"
+                className="px-4 py-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-[#66b72e]"
               />
             </div>
           </div>
