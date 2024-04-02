@@ -8,7 +8,7 @@ export default function Home() {
       <Navbar />
       <div className="h-auto flex flex-wrap items-center justify-center text-center gap-6 my-6">
         {contents.map((content) => (
-          <ContentCard value={content} />
+          <ContentCard key={content.title} value={content} />
         ))}
       </div>
     </div>
