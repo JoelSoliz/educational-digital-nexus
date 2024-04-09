@@ -6,3 +6,10 @@ body {
   @apply bg-[#fffffe];
 }
 
+.highlight {
+  background-color: aqua;
+}
+
+.no-highlight {
+  @apply bg-[#fffffe];
+}
