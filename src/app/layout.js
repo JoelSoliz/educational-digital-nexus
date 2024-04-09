@@ -11,6 +11,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <script src="/pdfjs/pdf.mjs" type="module" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );
