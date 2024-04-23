@@ -6,27 +6,36 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
+import { toast } from "sonner";
 
 const useAuth = create((set) => ({
   user: null,
-  googleSignIn: async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithRedirect(auth, provider);
-    } catch (error) {
-      console.error(error);
-    }
+  googleSignIn: () => {
+    const provider = new GoogleAuthProvider();
+    signInWithRedirect(auth, provider)
+      .then(() => {
+        toast.success("Ha iniciado sesión correctamente");
+      })
+      .catch((error) => {
+        toast.success("Hubo un error al iniciar sesión");
+        console.error(error);
+      });
   },
-  signOut: async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error(error);
-    }
+  signOut: () => {
+    signOut(auth)
+      .then(() => {
+        toast.success("Ha cerrado sesión correctamente");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   },
 }));
 
 onAuthStateChanged(auth, (currentUser) => {
+  if (currentUser?.displayName) {
+    toast.success(`¡Hola ${currentUser.displayName}!`);
+  }
   useAuth.setState({
     user: currentUser,
   });
