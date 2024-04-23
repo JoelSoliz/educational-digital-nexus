@@ -1,7 +1,11 @@
+"use client";
+import useAuth from "@/context/authContext";
 import Link from "next/link";
 import React from "react";
 
 const Navbar = () => {
+  const { googleSignIn, signOut, user } = useAuth();
+
   return (
     <nav className="bg-[#1b1425]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1">
@@ -25,9 +29,28 @@ const Navbar = () => {
             >
               Subir PDF
             </Link>
-            <p className="cursor-pointer text-[#fffffe] hover:text-[#66b72e]">
-              Iniciar sesión
-            </p>
+            {user?.displayName ? (
+              <>
+                <p
+                  className="cursor-pointer text-[#fffffe] hover:text-[#66b72e]"
+                  onClick={signOut}
+                >
+                  Cerrar sesión
+                </p>
+                <img
+                  className="rounded-full w-10 hover:scale-105 cursor-pointer"
+                  alt={`Foto de usuario ${user?.displayName}`}
+                  src={user?.photoURL}
+                />
+              </>
+            ) : (
+              <p
+                className="cursor-pointer text-[#fffffe] hover:text-[#66b72e]"
+                onClick={googleSignIn}
+              >
+                Iniciar sesión
+              </p>
+            )}
           </div>
         </div>
       </div>
