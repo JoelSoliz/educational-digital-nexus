@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
-import { collection, onSnapshot, addDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 
 const contentsRef = collection(db, "contents");
+const contentsQuery = query(contentsRef, orderBy("title"));
 
 export function useContents() {
   const [contents, setContents] = useState([]);
@@ -19,7 +26,7 @@ export function useContents() {
 
   useEffect(() => {
     setLoading(true);
-    const unsubscribe = onSnapshot(contentsRef, (snapshot) => {
+    const unsubscribe = onSnapshot(contentsQuery, (snapshot) => {
       const contentsData = snapshot.docs.map((doc) => {
         const data = doc.data();
         return { ...data, id: doc.id };
