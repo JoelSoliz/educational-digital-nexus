@@ -7,6 +7,7 @@ import {
   query,
 } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
+import { toast } from "sonner";
 
 const contentsRef = collection(db, "contents");
 const contentsQuery = query(contentsRef, orderBy("title"));
@@ -15,12 +16,12 @@ export function useContents() {
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(null);
   const actions = {
-    createContent: async (contentData) => {
-      console.log(contentData);
+    createContent: async (contentData, onComplete) => {
       const result = await addDoc(contentsRef, {
         ...contentData,
       });
-      console.log(result);
+      toast.success("El archivo se ha subido correctamente.");
+      onComplete();
     },
   };
 

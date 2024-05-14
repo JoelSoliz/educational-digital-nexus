@@ -23,14 +23,14 @@ const Navbar = () => {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <Link
-              href="/pdf-viewer"
-              className="cursor-pointer text-[#fffffe] hover:text-[#66b72e]"
-            >
-              Subir PDF
-            </Link>
             {user?.displayName ? (
               <>
+                <Link
+                  href="/upload-content"
+                  className="cursor-pointer text-[#fffffe] hover:text-[#66b72e]"
+                >
+                  Subir PDF
+                </Link>
                 <p
                   className="cursor-pointer text-[#fffffe] hover:text-[#66b72e]"
                   onClick={signOut}
