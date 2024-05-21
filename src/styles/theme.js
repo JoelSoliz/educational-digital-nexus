@@ -20,6 +20,11 @@ const theme = createTheme({
       secondary: "#66b72e",
     },
   },
+  typography: {
+    button: {
+      textTransform: "none",
+    },
+  },
   components: {
     MuiTextField: {
       styleOverrides: {
