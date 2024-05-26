@@ -2,8 +2,8 @@ import { Provider } from "ims-lti";
 import { NextResponse } from "next/server";
 import { parse } from "url";
 
-const consumerKey = "";
-const consumerSecret = "";
+const consumerKey = "nexus-jdn";
+const consumerSecret = "nexus-jdn2";
 
 export async function POST(request) {
   const provider = new Provider(consumerKey, consumerSecret);
