@@ -6,6 +6,9 @@ import { useEffect } from "react";
 
 export default function Home() {
   const [{ data, loading }, _] = useContents();
+  // useEffect(() => {
+  //   console.log(new URLSearchParams(window.location.search).keys());
+  // }, []);
 
   useEffect(() => {
     fetch("/api/lti", {

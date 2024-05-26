@@ -5,6 +5,16 @@ import { parse } from "url";
 const consumerKey = "nexus-jdn";
 const consumerSecret = "nexus-jdn2";
 
+function jsonToSearchParams(json) {
+  const params = new URLSearchParams();
+  for (const key in json) {
+    if (json.hasOwnProperty(key)) {
+      params.append(key, json[key]);
+    }
+  }
+  return params;
+}
+
 export async function POST(request) {
   const provider = new Provider(consumerKey, consumerSecret);
   provider.valid_request(request, (err, isValid) => {
@@ -19,7 +29,9 @@ export async function POST(request) {
       email: provider.body.lis_person_contact_email_primary,
     };
 
-    return NextResponse.json(user, { status: 200 });
+    return NextResponse.redirect(`/${jsonToSearchParams(provider.body)}`, {
+      status: 307,
+    });
   });
 }
 
