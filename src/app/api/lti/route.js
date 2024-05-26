@@ -23,10 +23,10 @@ export async function POST(request) {
   });
 }
 
-export const config = {
-  api: {
-    bodyParser: {
-      urlencoded: true,
-    },
-  },
-};
+// export const config = {
+//   api: {
+//     bodyParser: {
+//       urlencoded: true,
+//     },
+//   },
+// };
