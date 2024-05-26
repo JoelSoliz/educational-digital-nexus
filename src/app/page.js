@@ -2,9 +2,25 @@
 import LayoutWithHeader from "@/components/common/LayoutWithHeader";
 import ContentCard from "@/components/home/ContentCard";
 import { useContents } from "@/hooks/useContents";
+import { useEffect } from "react";
 
 export default function Home() {
   const [{ data, loading }, _] = useContents();
+
+  useEffect(() => {
+    fetch("/api/lti", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams(window.location.search),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.error("Error:", error));
+  }, []);
 
   return (
     <LayoutWithHeader>
