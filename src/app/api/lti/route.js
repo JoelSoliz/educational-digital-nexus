@@ -16,10 +16,27 @@ function jsonToSearchParams(json) {
 }
 
 export async function POST(request) {
+  let response = NextResponse.json(
+    { message: "Internal error" },
+    { status: 500 }
+  );
+  request.protocol = request.url.startsWith("https") ? "https" : "http";
   const provider = new Provider(consumerKey, consumerSecret);
-  provider.valid_request(request, (err, isValid) => {
+
+  const formData = await request.formData();
+  const body = {};
+  formData.forEach((value, key) => {
+    body[key] = value;
+  });
+
+  provider.valid_request(request, body, (err, isValid) => {
+    console.log(err);
     if (err || !isValid) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      response = NextResponse.json(
+        { message: "Unauthorized" },
+        { status: 401 }
+      );
+      return;
     }
 
     console.log(provider.body);
@@ -29,16 +46,10 @@ export async function POST(request) {
       email: provider.body.lis_person_contact_email_primary,
     };
 
-    return NextResponse.redirect(`/${jsonToSearchParams(provider.body)}`, {
+    response = NextResponse.redirect(`/${jsonToSearchParams(provider.body)}`, {
       status: 307,
     });
   });
-}
 
-// export const config = {
-//   api: {
-//     bodyParser: {
-//       urlencoded: true,
-//     },
-//   },
-// };
+  return response;
+}
