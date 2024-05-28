@@ -1,6 +1,7 @@
 import { Provider } from "ims-lti";
 import { NextResponse } from "next/server";
 import { parse } from "url";
+import HMAC_SHA1 from "ims-lti/lib/hmac-sha1";
 
 const consumerKey = "nexus-jdn";
 const consumerSecret = "nexus-jdn2";
@@ -20,6 +21,8 @@ export async function POST(request) {
     { message: "Internal error" },
     { status: 500 }
   );
+  const enc = new HMAC_SHA1();
+  console.log(parse(request.url, true));
   request.protocol = request.url.startsWith("https") ? "https" : "http";
   const provider = new Provider(consumerKey, consumerSecret);
 
@@ -29,6 +32,7 @@ export async function POST(request) {
     body[key] = value;
   });
 
+  console.log(enc.build_signature(request, body, consumerSecret));
   provider.valid_request(request, body, (err, isValid) => {
     console.log(err);
     if (err || !isValid) {
