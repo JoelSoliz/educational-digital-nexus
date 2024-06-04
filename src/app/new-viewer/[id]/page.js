@@ -21,6 +21,7 @@ function debounce(callback, wait) {
 
 const PdfViewerPage = ({ params }) => {
   const { user } = useAuth();
+  const [key, setKey] = useState(0);
   const [fileData, { updateDoc }] = useFileData(user?.uid, params.id);
   const [content, _] = useContent(params.id);
   const [highlightEnabled, setHighlightEnabled] = useState(true);
@@ -92,6 +93,7 @@ const PdfViewerPage = ({ params }) => {
 
     if (fileData) {
       updateDoc(fileData.movements, highlighted);
+      setKey((prevKey) => prevKey + 1);
     }
   };
 
@@ -293,6 +295,7 @@ const PdfViewerPage = ({ params }) => {
           </div>
         </div>
         <PdfViewer
+          identifier={key}
           pdfData={content?.fileUrl}
           highlightEnabled={highlightEnabled}
           highlighted={!!fileData?.highlighted ? fileData.highlighted : []}
