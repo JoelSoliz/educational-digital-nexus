@@ -50,7 +50,7 @@ const HighlightRenderer = ({ content, highlightPositions }) => {
 
   useEffect(() => {
     if (typeof content === "string") {
-      setHighlightedContent([<p>{content}</p>]);
+      setHighlightedContent([<p key="loading-1">{content}</p>]);
     }
 
     if (Array.isArray(content) && Array.isArray(highlightPositions)) {
