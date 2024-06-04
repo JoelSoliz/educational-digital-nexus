@@ -4,9 +4,9 @@ import HighlightText from "./HighlightText";
 const HighlightRenderer = ({ content, highlightPositions }) => {
   const [highlightedContent, setHighlightedContent] = useState([]);
 
-  const highlight = () => {
+  const highlight = (highlightPositions) => {
     const groupedPositions = highlightPositions.reduce(
-      (acc, [start, length, paragraph]) => {
+      (acc, { start, length, paragraph }) => {
         if (!acc[paragraph]) acc[paragraph] = [];
         acc[paragraph].push({
           start: parseInt(start),
@@ -49,9 +49,12 @@ const HighlightRenderer = ({ content, highlightPositions }) => {
   };
 
   useEffect(() => {
-    if (content.length) {
-      console.log("processing...", highlightPositions);
-      highlight();
+    if (typeof content === "string") {
+      setHighlightedContent([<p>{content}</p>]);
+    }
+
+    if (Array.isArray(content) && Array.isArray(highlightPositions)) {
+      highlight(highlightPositions);
     }
   }, [content, highlightPositions]);
 

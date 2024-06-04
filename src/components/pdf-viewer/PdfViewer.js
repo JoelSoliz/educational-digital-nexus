@@ -22,7 +22,7 @@ function removeHighlightText(event) {
   }
 }
 
-const PdfViewer = ({ pdfData, highlightEnabled }) => {
+const PdfViewer = ({ pdfData, highlightEnabled, highlighted }) => {
   const [content, setContent] = useState(["Cargando contenido..."]);
   const [loadHighlightContent, setHighlightContent] = useState(false);
   const renderPdf = async (pdfData) => {
@@ -74,10 +74,7 @@ const PdfViewer = ({ pdfData, highlightEnabled }) => {
       id="viewfinder"
       className="h-80 p-2 overflow-y-auto rounded-md border-[3px] border-[#76ec5e]"
     >
-      <HighlightRenderer
-        content={content}
-        highlightPositions={loadHighlightContent ? [] : []}
-      />
+      <HighlightRenderer content={content} highlightPositions={highlighted} />
     </div>
   );
 };
