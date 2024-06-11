@@ -14,7 +14,7 @@ const initValues = {
   file: null,
 };
 
-const UploadContent = () => {
+const UploadContent = ({ userId }) => {
   const [_, actions] = useContents();
   const [formValues, setFormValues] = useState(initValues);
   const handleUpdate = (field, value) =>
@@ -30,6 +30,7 @@ const UploadContent = () => {
             description: formValues.description,
             title: formValues.title,
             fileUrl: downloadURL,
+            createdBy: userId,
           },
           () => setFormValues(initValues)
         );

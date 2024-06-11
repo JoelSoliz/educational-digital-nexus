@@ -5,9 +5,17 @@ import { db } from "@/firebase/firebase";
 export function useFileData(userId, documentId) {
   const [fileData, setFileData] = useState(null);
   const actions = {
-    updateDoc: async (movements, highlighted) => {
+    updateMoves: async (movements) => {
       const docRef = doc(db, "interactions", `${userId}_${documentId}`);
-      await updateDoc(docRef, { movements, highlighted });
+      await updateDoc(docRef, { movements });
+    },
+    updateHigh: async (highlighted) => {
+      const docRef = doc(db, "interactions", `${userId}_${documentId}`);
+      await updateDoc(docRef, { highlighted });
+    },
+    giveComment: async (comment) => {
+      const docRef = doc(db, "interactions", `${userId}_${documentId}`);
+      await updateDoc(docRef, { message: comment });
     },
   };
 

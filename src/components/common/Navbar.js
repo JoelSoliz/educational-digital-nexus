@@ -31,6 +31,12 @@ const Navbar = () => {
                 >
                   Subir PDF
                 </Link>
+                <Link
+                  href="/evaluation"
+                  className="cursor-pointer text-[#fffffe] hover:text-[#66b72e]"
+                >
+                  Evaluar
+                </Link>
                 <p
                   className="cursor-pointer text-[#fffffe] hover:text-[#66b72e]"
                   onClick={signOut}

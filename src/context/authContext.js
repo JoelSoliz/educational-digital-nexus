@@ -5,8 +5,9 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "@/firebase/firebase";
+import { auth, db } from "@/firebase/firebase";
 import { toast } from "sonner";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 const useAuth = create((set) => ({
   user: null,
@@ -34,6 +35,12 @@ const useAuth = create((set) => ({
 
 onAuthStateChanged(auth, (currentUser) => {
   if (currentUser?.displayName) {
+    setDoc(doc(db, "users", currentUser.uid), {
+      displayName: currentUser.displayName,
+      email: currentUser.email,
+      photoURL: currentUser.photoURL,
+      id: currentUser.uid,
+    });
     toast.success(`¡Hola ${currentUser.displayName}!`);
   }
   useAuth.setState({

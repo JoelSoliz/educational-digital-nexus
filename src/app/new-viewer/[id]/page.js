@@ -22,7 +22,10 @@ function debounce(callback, wait) {
 const PdfViewerPage = ({ params }) => {
   const { user } = useAuth();
   const [key, setKey] = useState(0);
-  const [fileData, { updateDoc }] = useFileData(user?.uid, params.id);
+  const [fileData, { updateMoves, updateHigh }] = useFileData(
+    user?.uid,
+    params.id
+  );
   const [content, _] = useContent(params.id);
   const [highlightEnabled, setHighlightEnabled] = useState(true);
   const [movements, setMovements] = useState([]);
@@ -61,10 +64,10 @@ const PdfViewerPage = ({ params }) => {
 
   const saveMovements = async () => {
     if (fileData) {
-      updateDoc(
-        { ...fileData.movements, [lastRecording.current]: movements },
-        fileData.highlighted
-      );
+      updateMoves([
+        ...fileData.movements,
+        { date: lastRecording.current, movements },
+      ]);
     }
   };
 
@@ -92,7 +95,7 @@ const PdfViewerPage = ({ params }) => {
     });
 
     if (fileData) {
-      updateDoc(fileData.movements, highlighted);
+      updateHigh(highlighted);
       setKey((prevKey) => prevKey + 1);
     }
   };
@@ -174,107 +177,6 @@ const PdfViewerPage = ({ params }) => {
                     </Button>
                   </div>
                 ))}
-              {!recording &&
-                !!movements.length &&
-                (!replaying ? (
-                  <>
-                    {/* <Select
-                      value={age}
-                      onChange={handleChange}
-                      label="Grabación"
-                    >
-                      {Object.keys(fileData?.movements).map((key) => {
-                        <MenuItem value={key}>
-                          {new Date(key).toString().split(" GMT")[0]}
-                        </MenuItem>;
-                      })}
-                    </Select> */}
-                    <Button
-                      variant="text"
-                      component="label"
-                      sx={{
-                        color: "#fffffe",
-                        "&:hover": {
-                          color: "#66b72e",
-                        },
-                      }}
-                      onClick={() => {
-                        toast.info("Reproduciendo grabación...");
-                        stop.current = false;
-                        setReplaying(true);
-                        reproduceMovement();
-                      }}
-                    >
-                      Reproducir interacción
-                    </Button>
-                  </>
-                ) : (
-                  <div>
-                    <Recording sx={{ color: "#ff0000" }} />
-                    <Button
-                      variant="text"
-                      component="label"
-                      sx={{
-                        color: "#fffffe",
-                        "&:hover": {
-                          color: "#66b72e",
-                        },
-                      }}
-                      onClick={() => {
-                        toast.info("Reproducción terminada");
-                        stop.current = true;
-                        setReplaying(false);
-                      }}
-                    >
-                      Parar reproducción
-                    </Button>
-                    <Button
-                      variant="text"
-                      component="label"
-                      sx={{
-                        color: velocity.current != 1 ? "#fffffe" : "#66b72e",
-                        "&:hover": {
-                          color: "#66b72e",
-                        },
-                      }}
-                      onClick={() => {
-                        velocity.current = 1;
-                      }}
-                    >
-                      x1
-                    </Button>
-                    <Button
-                      variant="text"
-                      component="label"
-                      sx={{
-                        color: velocity.current != 2 ? "#fffffe" : "#66b72e",
-                        "&:hover": {
-                          color: "#66b72e",
-                        },
-                      }}
-                      onClick={() => {
-                        velocity.current = 2;
-                      }}
-                    >
-                      x2
-                    </Button>
-                    <Button
-                      variant="text"
-                      component="label"
-                      sx={{
-                        color: velocity.current != 4 ? "#fffffe" : "#66b72e",
-                        "&:hover": {
-                          color: "#66b72e",
-                        },
-                      }}
-                      onClick={() => {
-                        velocity.current = 4;
-                      }}
-                    >
-                      x4
-                    </Button>{" "}
-                  </div>
-                ))}
               <Button
                 variant="text"
                 component="label"
@@ -285,6 +187,7 @@ const PdfViewerPage = ({ params }) => {
                   },
                 }}
                 onClick={() => {
+                  saveMovements();
                   saveHighlighted();
                   toast.info("Guardado!");
                 }}
@@ -300,6 +203,16 @@ const PdfViewerPage = ({ params }) => {
           highlightEnabled={highlightEnabled}
           highlighted={!!fileData?.highlighted ? fileData.highlighted : []}
         />
+        {!!fileData?.message && (
+          <div className="flex justify-center">
+            <div
+              id="viewfinder"
+              className="mt-4 max-h-20 w-[50%] p-2 overflow-y-auto rounded-md border-[3px] border-[#5ed746] text-gray-700"
+            >
+              {fileData?.message || "No hay retroalimentación aun"}
+            </div>
+          </div>
+        )}
       </div>
     </LayoutWithHeader>
   );

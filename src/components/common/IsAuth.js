@@ -17,7 +17,7 @@ const isAuth = (Component) => {
       return null;
     }
 
-    return <Component {...props} />;
+    return <Component {...props} userId={user.uid} />;
   };
 };
 
